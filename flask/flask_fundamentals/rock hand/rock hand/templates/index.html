@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            width: 960px;
+            
+        }
+        .img{
+            width: 100px;
+            height: 100px;
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="img">
+            <img src="../static/image/rock.jpg">
+            <img src="../static/image/paper.jpg">
+            <img src="../static/image/scissor.jpg">
+        </div> 
+        <div class="bottom">
+            <form action="game" method="POST">
+                <label for="game">pick one:</label>
+                <select id="game" name="game">
+                  <option value="rock">rock</option>
+                  <option value="paper">paper</option>
+                  <option value="scissor" selected>scissor</option>
+                </select>
+                <input value="go" type="submit">
+              </form>
+        </div>
+        <div>
+            <p>you pick: {{ x }}</p>
+            <p>Computer chose: {{ c }}</p>
+            <p>you: {{result}}</p>
+        </div>
+</body>
+</html>
