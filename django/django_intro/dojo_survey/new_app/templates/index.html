@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dojo Survey</title>
+    <style>
+       .form{
+           width: 350px;
+           height: 350px;
+           border: 2px solid black;
+           padding: 50px;
+       }
+       .form button{
+           margin-left: 150px;
+           margin-top:10px ;
+       }
+    </style>
+</head>
+<body>
+    <div class="form">
+        <form action='input' method='post'>
+            {% csrf_token %}
+            <p>Your Name: <input type='text' name='Your Name'></p>
+            <p>Dojo Location :
+            <select id="location" name="Dojo Location">
+                <option value="Ramallah">Ramallah</option>
+                <option value="Hebron">Hebron</option>
+                <option value="Nablus">Nablus</option>
+                <option value="Bethlehem">Bethlehem</option>
+            </select>
+            </p>
+            <p>Favorite Language:
+            <select id="language" name="Favorite Language">
+                <option value="Python">Python</option>
+                <option value="Java">Java</option>
+                <option value="Mern">Mern</option>
+            </select>
+            </p>
+            <p>Comment (optional):</p>
+            <textarea name="comment" class="description"></textarea>
+            <p><button type="submit" value="submit"> Submit </button></p>
+        </form>
+    </div>
+</body>
+</html>

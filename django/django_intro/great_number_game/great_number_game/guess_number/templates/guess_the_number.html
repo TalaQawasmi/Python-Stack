@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/greatnum.css'%}">
+        <title>Guess the Number</title>
+    </head>
+    <body> 
+    <center>
+        <h1> Welcome to the Great Number Game ! </h1>
+        <h2> I am thinking of a number between 1 and 100</h2>
+        <h2>Take a Guess!</h2> 
+        
+        {% if request.session.random != 'true' %}
+            <form action="guess" method="POST">
+                {% csrf_token %}
+            {% if request.session.random == "high" %}
+                <h2> Too High !</h2>
+            {% endif %}
+            {% if request.session.random == "low" %}
+                <h2> Too Low !</h2>
+            {% endif %}
+            <input type="number" name="numguess">
+            <input type="submit" id="submitbutton" value="Submit!" > 
+            </form>
+        {% endif %}
+        {% if request.session.random == 'true' %}
+        <form action="replay" method="POST">
+            {% csrf_token %}
+            <h2> Correct!</h2>
+            <h2> {{request.session.computer_random}} was the number! </h2>
+            <input type="submit" id="submitbutton" value="Play Again!" >
+        </form>
+        {% endif %}
+
+    </center>
+    </body>
+</html>
+
+<!-- <form action="/guessed" method="dialog">
+    {% csrf_token %}
+    <h2> {{numguess}} was the number! </h2>
+    <input type="submit" id="submitbutton" value="Play Again!" >
+</form> -->

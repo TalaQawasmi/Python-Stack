@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favourite Book</title>
+</head>
+<body>
+    <h1>Registeration</h1>
+    <form action="register" method="POST">
+        {% csrf_token %}
+        <label>First Name: <input type = "text" name="first_name"></label>
+        <lable>Last Name: <input type="text" name="last_name"></lable>
+        <lable>Email: <input type="email" name="email"></lable>
+        <label>Password: <input type="password" name="pw"></label>
+        <lable>Confirm PW <input type="password" name="confirm_pw"></lable>
+        <button type="submit">Register</button>
+    </form>
+
+</body>
+</html>

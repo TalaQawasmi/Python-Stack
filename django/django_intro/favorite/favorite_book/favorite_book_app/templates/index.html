@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}    
+    <script src="{% static 'js/script.js' %}"></script>
+    <title>Signup/Login Page</title>
+</head>
+<body>
+    Signup/Login:
+    <form action="/add_user" method="post" onsubmit="return validateRegister()" name="register">
+        {% csrf_token %}
+        <input type="hidden" value="register" name="which_form">
+        First Name: <input type="text" name="fname">
+        Last Name: <input type="text" name="lname">
+        E-mail: <input type="email" name="email">
+        Birthdate: <input type="date" name="date">
+        Password: <input type="password" name="password">
+        Confirm Password: <input type="password" name="confirm">
+        <input type="submit" value="Register">
+    </form>
+    <form action="/login" method="post" name="login" onsubmit="return validateLogin()">
+        {% csrf_token %}
+        <input type="hidden" value="login" name="which_form">
+        E-mail: <input type="email" name="email">
+        Password: <input type="password" name="password">
+        <input type="submit" value="Login">
+    </form>
+    <div id='errors'></div>
+    {% if messages %}
+    <ul class="messages">    
+    {% for message in messages %}    
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+    {% endfor %}
+    </ul>
+    {% endif %}
+    <a href="/logout">delete</a>
+</body>
+</html>

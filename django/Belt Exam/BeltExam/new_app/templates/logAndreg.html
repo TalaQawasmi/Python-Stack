@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+
+    </style>
+</head>
+    <body>
+
+
+               {% if messages %}
+                <ul class="messages">
+                {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+                </ul>
+                {% endif %}
+        <div class="row p-5">
+
+
+            <form class="col-md-offset-3 col-md-6" action="/register" method="post">
+        {% csrf_token %}
+
+                <h1>Register</h1>
+                <div class="form-group">
+
+                        <label for="first_name" class="control-label">Name</label>
+                        <input type="text" class="form-control" id="Name" name="Name" placeholder="Name">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="password" class="control-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="password">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="cpassword" class="control-label">Conirm Password</label>
+                    <input type="password" class="form-control" id="cpassword" name="cpassword" placeholder="confirm password">
+                </div>
+
+
+                <button type="submit" class="btn btn-dark">Register</button>
+            </form>
+
+
+
+            <form class="col-md-offset-3 col-md-6" action="login" method="post">
+        {% csrf_token %}
+
+                <h1>Login</h1>
+                <div class="form-group">
+                        <label for="logged_email" class="control-label">User Name</label>
+                        <input type="Name" class="form-control" id="logged_Name" name="logged_Name" placeholder="Name">
+                </div>
+
+                <div class="form-group">
+                    <label for="logged_pwd" class="control-label">Password</label>
+                    <input type="password" class="form-control" id="logged_pwd" name="logged_pwd" placeholder="password">
+                </div>
+                <button type="submit" class="btn btn-dark">Login</button>
+            </form>
+
+        </div>
+
+
+    </body>
+</html>

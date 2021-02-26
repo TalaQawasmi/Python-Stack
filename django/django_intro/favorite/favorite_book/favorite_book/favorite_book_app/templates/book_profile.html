@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% if user.id == book.books_uploaded.id %}
+    <div>
+    <h1>Welcome {{user.first_name}}</h1>
+    <a href="/logout">Logout</a>
+    <hr>
+    <form action="/edit/{{book.id}}" method="post" name="edit_book">
+        {% csrf_token %}
+    <textarea name="title">{{book.title}}</textarea>
+    <p>Added by: {{user.first_name}} {{user.last_name}}</p>
+    <p>Added on: {{book.created_at}}</p>
+    <p>Updated on: {{book.updated_at}}</p>
+    Description: <textarea name="desc">{{book.desc}}</textarea>
+    <input type="submit" value="Edit">
+    </form>
+    </div>
+    <div>
+        <h2>Users who like this Book:</h2>
+        {% for users in book.liked_books.all %}
+        <p>{{users.first_name}} {{users.last_name}}</p>
+        {% endfor %}
+        {% if user in liked_books %}
+        <a href="/unfavorite/{{book.id}}/{{user.id}}">Un-favorite</a>
+        {% elif user not in liked_books %}
+        <a href="/add_to_favorites/{{book.id}}/{{user.id}}">Add to Favorites</a>
+        {% endif %}
+    </div>
+    {% endif %}
+    {% if user.id != book.books_uploaded.id %}
+    <div>
+        <h1>Welcome {{user.first_name}}</h1>
+        <a href="/logout">Logout</a>
+        <hr>
+        <h2>{{book.title}}</h2>
+        <p>Added by: {{book.books_uploaded.first_name}} {{book.books_uploaded.last_name}}</p>
+        <p>Added on: {{book.created_at}}</p>
+        <p>Updated on: {{book.updated_at}}</p>
+        <p>Description: {{book.desc}}</p>
+        </div>
+        <div>
+            <h2>Users who like this Book:</h2>
+            {% for users in liked_books %}
+            <p>{{users.first_name}} {{users.last_name}}</p>
+            {% endfor %}
+            {% if user in liked_books %}
+            <a href="/unfavorite/{{book.id}}/{{user.id}}">Un-favorite</a>
+            {% elif user not in liked_books %}
+            <a href="/add_to_favorites/{{book.id}}/{{user.id}}">Add to Favorites</a>
+            {% endif %}
+        </div>
+        
+        
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <center>
+            <h1>All Users</h1>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Age</th>
+            </tr>
+            {% for user in all_the_users %}
+            <tr>
+                <td>{{user.first_name}}</td>
+                <td> {{user.last_name}}</td>
+                <td>{{user.email_address}}</td>
+                <td> {{user.age}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <hr>
+        <h2>Add a User</h2>
+        <form action="/process" method="post">
+            {% csrf_token %}
+            <p>first Name: <input name="first_name" type="text"></p>
+            <p>last Name: <input name="last_name" type="text"></p>
+            <p>email_address: <input name="email_address" type="text"></p>
+            <p>Age: <input name="age" type="text"></p>
+            <button type="submit">Submit</button>
+        </form>
+        </center>
+        
+    </body>
+</html>
+
+
+
+
+
+
+
+
+

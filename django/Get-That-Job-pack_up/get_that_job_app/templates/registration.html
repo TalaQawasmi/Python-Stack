@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/registration-style.css' %}">
+    <title> Registration </title>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <img src="{% static 'img/logo.jpg' %}"width="130px" />
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    {% if  request.session.logged_user_info %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/in">Home </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/booking">Booking</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/profile">Profile</a>
+                        </li>
+                        {% if request.session.logged_user_info.user_role == 1 %}
+                        <li class="nav-item active">
+                            <a class="nav-link " href="/admin">Admin View</a>
+                        </li>
+                        {% endif %}
+                        
+                        <li>
+                            <form class="form-inline space" action="/in" method="POST">
+                                {% csrf_token %}
+                                <input name="product" id="product" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                            </form>
+                            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+                            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+                            <script>
+                                $(function () {
+                                    $("#product").autocomplete({
+                                        source: '{% url 'autocomplete' %}',
+                                    });
+                                });
+                            </script>
+                        </li>
+                    {% endif%} 
+                    {% if not request.session.logged_user_info %}
+                        <form class="form-inline">
+                            <label class="nav-item active"> Email:</label>
+                            <input class="form-control mr-sm-2"  placeholder="Email">
+                            <label class="nav-item active"> Password:</label>
+                            <input class="form-control mr-sm-2"  placeholder="Password">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log-In</button>
+                        </form>
+                        <form class="form-inline">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign In</button>
+                        </form>
+                        {% endif%}
+                        {% if request.session.logged_user_info %}
+                            <li class="nav-item active">
+                                <a class="nav-link " href="/profile">Hello {{ request.session.logged_user_info.first_name }} {{request.session.logged_user_info.last_name}}</a>
+                            </li>  
+                            <form class="form-inline" action="log_out"  method="POST">
+                                {% csrf_token %}
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log out</button>
+                            </form>  
+                        {% endif%}
+                </ul>
+            </div>
+        </nav>
+        {% if messages %}
+        <ul class="messages">    
+            {% for message in messages %}    
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <main>
+            <fieldset>
+                <legend>
+                    <img src="{% static 'img/profile-pic.png' %}" alt="user Profile image" height="50px" width="50px" /><h2>Register</h2>
+                </legend>
+                <form action="/register" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <label for="first_name" class="col-form-label"> First Name</label>
+                        <div><input type="text" class="form-control" name="first_name" id="first_name" placeholder="name" required></div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="last_name" class="col-form-label"> Last Name</label>
+                        <div><input type="text" name="last_name" id="last_name" placeholder="surname" class="form-control" required></div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-form-label"> Email</label>
+                        <div><input type="email" name=email id="email" placeholder="name@example.com" class="form-control" required></div>                    
+                    </div>
+                    <div class="form-group row">
+                        <label for="password" class="col-form-label">Password</label>
+                        <div><input type="password" name="password" id="password" placeholder="password" class="form-control" required></div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="password_confirm" class="col-form-label">Confirm Password</label>
+                        <div><input type="password" name="password_confirm" id="password_confirm" placeholder="confrim password" class="form-control" required></div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="birthday" class="col-form-label">Birthday</label>
+                        <div><input type="date" name="birthday"  id="birthday" class="form-control"></div>
+                    </div> 
+                    <div class="mb-3">
+                        <label for="education" class="col-form-label">Education</label>
+                        <select id="education" class="form-control" name="education">
+                            <option value="yourfield" class="form-control"> - choose your field - </option>
+                            <option > Engineering </option>
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label for="field_expertise" class="col-form-label">field of experience</label>
+                        <div><input type="text" name="field_expertise" id="field_expertise" placeholder="Field of Expertise" class="form-control"></div>                    
+                    </div>
+                    <div class="mb-3 form-check">
+                        <h6>Interests</h6>
+                        <input type="checkbox" class="form-check-input" id="interests" name="interests">
+                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    </div>
+                    <div class="form-group row">
+                        <label for="about" class="col-form-label">About You</label>
+                        <div><textarea class="form-control" name="about" id="abot" placeholder="Type here .." ></textarea></div>             
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Agree to Terms and Conditions</label>
+                        </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Register</button>
+                        </div>
+                    </div>   
+                </form>
+            </fieldset>
+        </main>
+        
+</body>
+</html>

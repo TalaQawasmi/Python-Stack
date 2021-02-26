@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <script src="{% static 'js/script.js' %}"></script>
+    <title>Document</title>
+</head>
+<body>
+    Books:
+    <form action="/add_book" method="post" onsubmit="return validateBook()" name="book">
+    {% csrf_token %}
+    Title: <input type="text" name="title">
+    Description: <textarea name="desc"></textarea>
+    <input type="submit" value="Add Book">
+    </form>
+    <a href="/logout">Logout</a>
+    <div>
+        <h2>All Books:</h2>
+        {% for book in all_books %}
+        <a href="/books/{{book.id}}">{{book.title}}</a>
+        <p>{{book.books_uploaded.first_name}} {{book.books_uploaded.last_name}}</p>
+        <p>{{book.desc}}</p>
+        {% endfor %}
+    </div>
+    <div id='errors'></div>
+    {% if messages %}
+    <ul class="messages">    
+    {% for message in messages %}    
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+    {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>

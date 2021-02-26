@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+</head>
+<body>
+    <fieldset>
+        <table> 
+                <legend>Submitted Information</legend>
+                <tbody>
+                    <tr> 
+                        <td>Name:</td>
+                        <td>{{name}}</td>
+                    </tr>
+                    <tr> 
+                        <td>Dojo Location:</td>
+                        <td>{{location}}</td>
+                    </tr>
+                    <tr> 
+                        <td>Favourtie Langauge:</td>
+                        <td>{{favorite language}}</td>
+                    </tr>
+                    <tr> 
+                        <td>Comment:</td>
+                        <td>{{comment}}</td>
+                    </tr>
+
+                </tbody>
+        </table>
+        <form action="/goback" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Go BACK">
+        </form>
+        </fieldset>   
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>log in</title>
+</head>
+<body>
+
+<div class="main">
+    <fieldset>
+        <legend>Registration</legend>
+        <form action="/register" method="post">
+            {% csrf_token %}
+            <label>First Name:<input type="text" name="first_name"></label><br>
+            <label>Last Name :<input type="text" name="last_name"></label><br>
+            <label>Email     :<input type="email" name="email"></label><br>
+            <label>Password  :<input type="password" name="pw"></label><br>
+            <label>Confirm PW:<input type="password" name="pw_cn"></label><br>
+                <!--            <input type="hidden" name="which_form" value="reg">-->
+            <button type="submit">Register</button>
+        </form>
+    </fieldset>
+       
+    <fieldset>
+        <legend>Log In</legend>
+        <form action="/log_in" method="post">
+            {% csrf_token %}
+            <label>Email: <input type="email" name="email"></label><br>
+            <label>Password: <input type="password" name="pw"></label><br>
+            <!--            <input type="hidden" name="which_form" value="log">-->
+            <button type="submit">Log in</button>
+        </form>
+    </fieldset>
+</div>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+</body>
+</html>

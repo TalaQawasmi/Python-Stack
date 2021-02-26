@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Successfully logged in: Welcome!</title>
+    </head>
+    <body>
+        <main>
+            <h1>Successfully Logged In! Welcome, {{first_name}} {{last_name}} !</h1>
+            <a href='/logout'>Log out</a>
+            <a href="/quotes">Dashboard</a>
+            <h1>Posts by {{user.name}} </h1>
+            <p>Count:{{user.favorites.all | length}}</p>
+        </main>
+        {% for favorite in favorites %}
+		<div>
+			<span style="color: red">{{favorite.author}}:</span> 
+			{{favorite.content}}
+		</div>
+	    {% endfor %}
+    </body>
+</html>

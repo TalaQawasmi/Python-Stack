@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Great Number Game</title>
+</head>
+<body>
+<center>
+    <h1>Welcome to the great number game!</h1>
+    <p>I'm thinking of a number between 1 and 100</p>
+    <p>Take a guess!</p>
+
+    {% ir request.session.random != true %}
+        <form action="guess" method="POST">
+        {% csrf_token %}
+        {% if request,session.random == "high"%}
+            <h2>Too high!</h2>
+        {% if request.session.random == "low"%}
+            <h2>Too low!</h2>
+        {% endif %}
+        <input type="number" name="guess">
+        <button type="submit" name="submit">Submit</button>
+        </form>
+    {% endif %}
+    {% if request.session.random == true %}
+        <form action="replay" method="POST">
+            {% csrf_token %}
+            <h2>Correct!</h2>
+            <h2>{{request.session.computer_random}} was the number!</h2>
+            <
+        </form>
+</center>
+</body>
+</html>

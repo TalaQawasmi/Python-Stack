@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User with templates</title>
+    <style>
+        .table{
+            border: 2px solid black;
+        }
+        .table tr th{
+            background-color: lightblue;
+        }
+    </style>
+</head>
+<body>
+<center>
+    <h1>All the Users</h1>
+    <form action="add" method="POST">
+        <table class="table" >
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Age</th>
+            </tr>
+            <tr>
+                <td>{{name}}</td>
+                <td>{{email}}</td>
+                <td>{{age}}</td>
+            </tr>
+
+        
+        </table>
+    </form>
+</center>
+</body>
+</html>

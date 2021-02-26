@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    <title>Admin</title>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <img src="{% static 'img/logo.jpg' %}"width="130px" />
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    {% if  request.session.logged_user_info %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/in">Home </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/booking">Booking</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/profile">Profile</a>
+                        </li>
+                        {% if request.session.logged_user_info.user_role == 1 %}
+                        <li class="nav-item active">
+                            <a class="nav-link " href="/admin">Admin View</a>
+                        </li>
+                        {% endif %}
+                        
+                        <li>
+                            <form class="form-inline space" action="/in" method="POST">
+                                {% csrf_token %}
+                                <input name="product" id="product" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                            </form>
+                            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+                            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+                            <script>
+                                $(function () {
+                                    $("#product").autocomplete({
+                                        source: '{% url 'autocomplete' %}',
+                                    });
+                                });
+                            </script>
+                        </li>
+                    {% endif%} 
+                    {% if not request.session.logged_user_info %}
+                        <form class="form-inline">
+                            <label class="nav-item active"> Email:</label>
+                            <input class="form-control mr-sm-2"  placeholder="Email">
+                            <label class="nav-item active"> Password:</label>
+                            <input class="form-control mr-sm-2"  placeholder="Password">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log-In</button>
+                        </form>
+                        <form class="form-inline">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign In</button>
+                        </form>
+                        {% endif%}
+                        {% if request.session.logged_user_info %}
+                            <li class="nav-item active">
+                                <a class="nav-link " href="/profile">Hello {{ request.session.logged_user_info.first_name }} {{request.session.logged_user_info.last_name}}</a>
+                            </li>  
+                            <form class="form-inline" action="log_out"  method="POST">
+                                {% csrf_token %}
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log out</button>
+                            </form>  
+                        {% endif%}
+                </ul>
+            </div>
+        </nav>
+    <main>
+        <div class="partner">
+            <fieldset>
+                <legend>Add a Partner</legend>
+                <form action="/addpartner" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <label for="first_name" class="col-form-label"> Name of Company</label>
+                        <div><input type="text" class="form-control" name="company_name" id="company_name" placeholder="company name"></div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="first_name" class="col-form-label"> Field of Company</label>
+                        <div><input type="text" class="form-control" name="company_field" id="company_field" placeholder="company's field of work"></div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="first_name" class="col-form-label"> About</label>
+                        <div><textarea class="form-control" name="co_about" id="co_abot" placeholder="about the company"></textarea></div>             
+                    </div>
+                    <div class="form-group row">
+                        <label for="img">Select image:</label>
+                        <input type="file" id="co_logo" name="co_logo" accept="image/*">
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button  type="submit" class="btn btn-primary">Add Partner</button>
+                        </div>
+                    </div>
+                </form>
+            </fieldset>
+            <div class="list">
+                <fieldset>
+                    <legend>Partners list</legend>
+                    <ul>
+                        {% for partner in partners %}
+                        <li> {{partner.name}} </li>
+                        <li>{{partner.about}} </li>
+                        {% endfor %}
+                    </ul>
+                </fieldset>
+            </div>
+        </div>
+        <div class="all_users">
+            <!-- List of Users -->
+            <fieldset>
+                <legend>Admins</legend>
+                {% for admin in admins %}
+                <ul>
+                    <li>{{admin.first_name}} {{admin.last_name}} <br> {{admin.email}}  </li><hr>
+                </ul>
+                {% endfor %}
+            </fieldset>
+            <!-- List of Users -->
+            <fieldset>
+                <legend>Users</legend>
+                {% for user in users %}
+                <ul>
+                    <li>{{user.first_name}} {{user.last_name}} <br> {{user.email}} </li><hr>
+                </ul>
+                {% endfor %}
+            </fieldset>
+            <!-- List of Consultants -->
+            <fieldset>
+                <legend>Consultants</legend>
+                {% for consultant in consultants %}
+                <ul>
+                    <li>{{consultant.first_name}} {{consultant.last_name}}  </li>
+                </ul>
+                {% endfor %}
+            </fieldset>
+        </div>
+        <div class="sessions">
+            <!-- List of User Sessions -->
+            <fieldset>
+                <legend>Users Sessions</legend>
+                <!-- for loop for user session-->
+                <ul>
+                    <li>  </li>
+                </ul>
+                
+            </fieldset>
+            <!-- List of Consultant Sessions -->
+            <fieldset>
+                <legend>Consultants Sessions</legend>
+                <!--for loop for consultant session-->
+                <ul>
+                    <li>  </li>
+                </ul>
+            
+            </fieldset>
+        </div>
+        <!-- THIS Is IS ADMIN VIEW ONLY (id for user logged in == 1)-->
+        <div class="admin_view">
+            <fieldset>
+                <legend>User Role</legend>
+                <form action="/adminedit" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="user_email" class="col-form-label">User Email</label>
+                        <select id="user_email" class="form-control" name="user_email">
+                            <option value="yourfield" class="form-control"> - choose user email - </option>
+                            {% for user in all_users %}
+                            <option> {{user.email}} </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="user_role" class="col-form-label">User Role</label>
+                        <select id="user_role" class="form-control" name="user_role">
+                            <option value="yourfield" id="role_id" class="form-control"> - choose user role - </option>
+                            <option> 1 </option>
+                            <option> 2 </option>
+                            <option> 3 </option>
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button  type="submit" class="btn btn-primary">Edit Role</button>
+                        </div>
+                    </div>
+                </form>
+            </fieldset>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-light text-center text-lg-start">
+        <!-- Grid container -->
+        <div class="container p-4">
+        <!--Grid row-->
+        <div class="row">
+            <!--Grid column-->
+            <div class="col-lg-6 col-md-12 mb-4 mb-md-0" >
+            <h5 class="text-uppercase">Get That Job</h5>
+    
+            <p>
+                This Privacy Policy describes Our policies and procedures on the collection,
+                use and disclosure of Your information when You use the Service and tells You
+                about Your privacy rights and how the law protects You.
+
+                We use Your Personal data to provide and improve the Service. By using the
+                Service, You agree to the collection and use of information in accordance with
+                this Privacy Policy.
+            </p>
+            </div>
+            <!--Grid column-->
+    
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Contact info</h5>
+            <br>
+            <ul class="list-unstyled mb-0">
+                <li>
+                    <img src="{% static 'img/phone.jpg' %}" alt="user Profile image" height="30px" width="30px" /><a href="#!" class="text-dark">  00972(22974523) </a>
+                </li>
+                <li>
+                    <img src="{% static 'img/email.png' %}" alt="user Profile image" height="30px" width="30px" /><a href="#!" class="text-dark"> info.gethatjob@gmail.com</a>
+                </li>
+                <li>
+                    <img src="{% static 'img/fax.png' %}" alt="user Profile image" height="30px" width="30px" /><a href="#!" class="text-dark"> 00972(22974523)</a>
+                </li>
+            </ul>
+            </div>
+            <!--Grid column-->
+    
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase mb-0">Social media accounts</h5>
+            <br>
+            <ul class="list-unstyled">
+                <li>
+                    <img src="{% static 'img/fb.png' %}" alt="user Profile image" height="30px" width="30px" /><a href="#!" class="text-dark">GetThatJob</a>
+                </li>
+                <li>
+                    <img src="{% static 'img/twitter.png' %}" alt="user Profile image" height="30px" width="30px" /><a href="#!" class="text-dark">GetThatJob</a>
+                </li>
+                <li>
+                    <img src="{% static 'img/linkedin.png' %}" alt="user Profile image" height="30px" width="30px" /><a href="#!" class="text-dark">GetThatJob</a>
+                </li>
+            </ul>
+            </div>
+            <!--Grid column-->
+        </div>
+        <!--Grid row-->
+        </div>
+        <!-- Grid container -->
+    
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgb(154 172 175)">
+        © 2020 Copyright:
+        <a class="text-dark" href="https://GetThatJob.com/">GetThatJob.com</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+    </body>
+</html>

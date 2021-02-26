@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        main{
+            margin: 0 auto;
+            width: 1000px;
+            display: flex;
+            justify-content: space-evenly;
+            position: absolute;
+            top: 10%;
+            left: 13%;
+        }
+        fieldset{
+            border: 1px solid rgb(61, 61, 148);
+            padding: 0px 15px 15px 15px;
+            width: 440px;
+            text-align: center;
+        }
+        legend{
+            margin-bottom: 30px;
+        }
+        .row{
+            flex-wrap: nowrap;
+        }
+
+        .form-group{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        label{
+            width: 100px;
+        }
+        .col-form-label{
+            text-align: start;
+            margin-right:25px;
+            font-weight: bold;
+        }
+        form{
+            display: inline-block;
+        }
+        .form-control{
+            width: 240px;
+            box-shadow: 2px 2px rgb(155, 144, 144);
+        }
+        .btn{
+            box-shadow: 2px 3px rgb(60, 60, 83);
+        }
+        :placeholder-shown{
+            font-style: italic;
+        }
+    </style>
+    <title>Belt Exam</title>
+</head>
+<body>
+    <div> 
+    {% if messages %}
+        <ul class="messages">    
+            {% for message in messages %}    
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+            {% endfor %}
+        </ul>
+    {% endif %}
+    </div>
+    <main>
+        <fieldset>
+            <legend><h2>Register</h2></legend>
+            <form action="/register" method="POST">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <label for="first_name" class="col-form-label"> First Name</label>
+                    <div><input type="text" class="form-control" name="first_name" id="first_name" placeholder="name" required></div>
+                </div>
+                <div class="form-group row">
+                    <label for="last_name" class="col-form-label"> Last Name</label>
+                    <div><input type="text" name="last_name" id="last_name" placeholder="surname" class="form-control" required></div>
+                </div>
+                <div class="form-group row">
+                    <label for="email" class="col-form-label"> Email</label>
+                    <div><input type="email" name=email id="email" placeholder="name@example.com" class="form-control" required></div>                    
+                </div>
+                <div class="form-group row">
+                    <label for="password" class="col-form-label">Password</label>
+                    <div><input type="password" name="password" id="password" placeholder="password" class="form-control" required></div>
+                </div>
+                <div class="form-group row">
+                    <label for="password_confirm" class="col-form-label">Confirm Password</label>
+                    <div><input type="password" name="password_confirm" id="password_confirm" placeholder="confrim password" class="form-control" required></div>
+                </div>
+                <!-- <div class="form-group row">
+                    <label for="birthDay" class="col-form-label">Birthday</label>
+                    <div><input type="date" name="birthDay"  id="birthDay" class="form-control"></div>
+                </div> -->
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                    </div>
+                </div>   
+            </form>
+        </fieldset>
+        <fieldset>
+            <legend><h2>Login</h2></legend>
+            <form action="/login" method="POST">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label"> Email</label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="password">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary">Log in</button>
+                    </div>
+                </div> 
+            </form>
+        </fieldset>
+        </main>
+</body>
+</html>
